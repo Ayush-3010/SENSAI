@@ -9,6 +9,18 @@ const model = genAI.getGenerativeModel({
     model: "gemini-2.5-flash"
 })
 
+const quizCooldown = new Map();
+const quizLocks = new Set();
+
+function generateImprovementTip(wrongAnswers, industry) {
+  const topics = wrongAnswers.map(q => q.question).slice(0, 3);
+
+  return `Focus on strengthening your ${industry} fundamentals. 
+    Review concepts related to: ${topics.join(", ")}. 
+    Practice similar questions regularly to improve accuracy.`;
+}
+
+
 export async function generateQuiz(){
     const {userId} = await auth();
     if(!userId) throw new Error("Unauthorized")
@@ -25,10 +37,22 @@ export async function generateQuiz(){
         throw new Error("Please complete onboarding before taking the quiz")
     }
 
+    const now = Date.now();
+    const last = quizCooldown.get(userId);
+    if (last && now - last < 60_000) {
+        throw new Error("Please wait before generating another quiz");
+    }
+    quizCooldown.set(userId, now);
+
+    if (quizLocks.has(userId)) {
+        throw new Error("Quiz generation already in progress");
+    }
+
+    quizLocks.add(userId);
 
     try {
         const prompt = `
-            Generate 10 technical interview questions for a ${user.industry} professional ${user.skills?.length ? ` with expertise in ${user.skills.join(", ")}` : ""}.
+            Generate 5 technical interview questions for a ${user.industry} professional ${user.skills?.length ? ` with expertise in ${user.skills.join(", ")}` : ""}.
             
             Each question should be multiple choice with 4 options.
             
@@ -106,6 +130,10 @@ export async function saveQuizResult(questions,answers,score){
         }
     }
 
+    // if (wrongAnswers.length > 0) {
+    //     improvementTip = generateImprovementTip(wrongAnswers, user.industry);
+    // }
+
     try {
         const assessment = await db.assessment.create({
         data: {
@@ -122,4 +150,31 @@ export async function saveQuizResult(questions,answers,score){
         console.error("Error saving quiz result:", error);
         throw new Error("Failed to save quiz result");
     }   
+}
+
+export async function getAssessments() {
+  const { userId } = await auth();
+  if (!userId) throw new Error("Unauthorized");
+
+  const user = await db.user.findUnique({
+    where: { clerkUserId: userId },
+  });
+
+  if (!user) throw new Error("User not found");
+
+  try {
+    const assessments = await db.assessment.findMany({
+      where: {
+        userId: user.id,
+      },
+      orderBy: {
+        createdAt: "asc",
+      },
+    });
+
+    return assessments;
+  } catch (error) {
+    console.error("Error fetching assessments:", error);
+    throw new Error("Failed to fetch assessments");
+  }
 }

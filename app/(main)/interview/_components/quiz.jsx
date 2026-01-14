@@ -31,8 +31,6 @@ const Quiz = () => {
         setData: setResultData,
     } = useFetch(saveQuizResult);
 
-    console.log(resultData)
-
     useEffect(()=>{
         if(quizData){
             setAnswers(new Array(quizData.length).fill(null))
@@ -102,7 +100,7 @@ const Quiz = () => {
                 </CardHeader>
                 <CardContent>
                     <p className='text-muted-foreground'>
-                        This quiz contains 10 questions specific to your industry and skills. Take your time and choose the best answer for each questions.
+                        This quiz contains 5 questions specific to your industry and skills. Take your time and choose the best answer for each questions.
                     </p>
                 </CardContent>
                 <CardFooter>
