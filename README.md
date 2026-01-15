@@ -1,36 +1,138 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🚀 SensAI
 
-## Getting Started
+**SensAI** is an AI-powered career growth & interview preparation platform designed to help users sharpen their technical skills, track performance, and build job-ready resumes — all in one place.
 
-First, run the development server:
+From AI-generated quizzes to industry insights and resume building, SensAI acts as a personal career assistant.
 
+---
+
+## ✨ Features
+
+👥 **User Authentication** – Secure login using Clerk.  
+🧠 **AI Industry Insights** – Salary trends, demand level, skills & market outlook powered by Gemini AI.  
+🎯 **AI Interview Quizzes** – Industry & skill-based technical quizzes (10 questions).  
+📊 **Performance Tracking** – Visual performance trends over time using interactive charts.  
+💡 **AI Improvement Tips** – Personalized feedback based on quiz mistakes.  
+📄 **Resume Builder** – Markdown-based editor with live preview and PDF export.  
+⏱️ **Rate Limiting** – Built-in protection against excessive AI API usage.  
+⚙️ **Background Jobs** – Automated industry insight updates via Inngest.  
+🛡️ **Protected Routes** – Secure server actions and user-specific data.  
+
+---
+
+## 🛠️ Tech Stack
+
+### **Frontend**
+- Next.js 15 (App Router)
+- React
+- Tailwind CSS
+- shadcn/ui
+- Recharts
+- @uiw/react-md-editor
+- Lucide React
+- Sonner (Toasts)
+
+### **Backend**
+- Next.js Server Actions
+- Prisma ORM
+- PostgreSQL
+- Clerk Authentication
+- Inngest (Background jobs)
+
+### **AI**
+- Google Gemini (`gemini-2.5-flash`)
+
+---
+
+## 🚀 Live Demo
+
+👉 **Production URL:** https://sensai-rosy-beta.vercel.app
+
+---
+
+## 🧩 Getting Started
+
+### **Clone the Repository**
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/your-username/sensai.git
+cd sensai
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+⚙️ Installation
+```bash
+npm install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+👉 App runs at: **http://localhost:5173**
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 🔑 Environment Variables
+```
+DATABASE_URL=postgresql://username:password@host:port/dbname
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
+CLERK_SECRET_KEY=your_clerk_secret_key
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+GEMINI_API_KEY=your_gemini_api_key
 
-## Deploy on Vercel
+INNGEST_EVENT_KEY=your_inngest_event_key
+INNGEST_SIGNING_KEY=your_inngest_signing_key
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🗄️ Database Setup
+```
+npx prisma generate
+npx prisma migrate dev
+```
+
+---
+
+## 📂 Project Structure
+```
+sensai/
+│── app/
+│   ├── (auth)/
+│   ├── (main)/
+│   │   ├── dashboard/
+│   │   ├── interview/
+│   │   ├── resume/
+│   │   ├── onboarding/
+│── actions/
+│── lib/
+│── prisma/
+│── public/
+│── hooks/
+│── components/
+│── README.md
+│── .env
+```
+
+---
+
+## 🚀 Deployment
+
+Deploy using:
+- Vercel
+
+Build:
+```bash
+npm run build
+npm run start
+```
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Open issues or PRs anytime.
+
+---
+
+## 📜 License
+
+MIT License
